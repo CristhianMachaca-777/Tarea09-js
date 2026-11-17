@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Trabajadores / Personal</title>
+
+  <!-- Iconos de Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Hoja de estilos -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand"><i class="bi bi-layers-fill"></i> SistemaWeb</a>
+      <ul class="nav-links">
+        <li><a href="#" class="active">Inicio</a></li>
+        <li><a href="#seccionTabla">Registros</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Contenedor principal -->
+  <main class="container">
+    
+    <!-- Encabezado con Subtítulo y Botón Agregar -->
+    <header class="page-header">
+      <div>
+        <h1>Registro de Trabajadores / Personal</h1>
+        <p class="subtitle">Listado oficial de colaboradores registrados en el sistema.</p>
+      </div>
+      <button type="button" id="btnAgregar" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Agregar
+      </button>
+    </header>
+
+    <!-- Tabla de datos -->
+    <div id="seccionTabla" class="card">
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Apellidos y Nombres</th>
+              <th>Régimen Pensionario</th>
+              <th>Empaquetación</th>
+              <th>Casa / Dirección</th>
+              <th class="text-center">Operaciones</th>
+            </tr>
+          </thead>
+          <tbody id="tablaCuerpo">
+            <!-- Se llena dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paginación inferior -->
+    <footer class="pagination-bar">
+      <span id="contadorRegistros" class="records-info">Mostrando registros</span>
+      <div class="pagination-buttons">
+        <button type="button" class="page-btn disabled">Anterior</button>
+        <button type="button" class="page-btn active">1</button>
+        <button type="button" class="page-btn">Siguiente</button>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Cuadro de Diálogo (<dialog>) flotante con Formulario -->
+  <dialog id="exampleDialog" class="custom-dialog">
+    <div class="dialog-header">
+      <h2 id="dialogTitulo">Registrar Nuevo Elemento</h2>
+      <button type="button" id="btnCerrarX" class="btn-icon-close" aria-label="Cerrar">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <form id="formRegistro">
+      <div class="dialog-body">
+        <input type="hidden" id="editIndex" value="-1">
+
+        <div class="form-group">
+          <label for="inputNombres">Apellidos y Nombres</label>
+          <input type="text" id="inputNombres" placeholder="Ej. APELLIDO, NOMBRES" required>
+        </div>
+
+        <div class="form-group">
+          <label for="inputPension">Régimen Pensionario</label>
+          <input type="text" id="inputPension" placeholder="Ej. SPP INTEGRA / DL 19990" required>
+        </div>
+
+        <div class="form-group">
+          <label for="inputEmpaque">Empaquetación</label>
+          <input type="text" id="inputEmpaque" placeholder="Ej. Caja Mediana A1" required>
+        </div>
+
+        <div class="form-group">
+          <label for="inputCasa">Casa / Dirección</label>
+          <input type="text" id="inputCasa" placeholder="Ej. Av. Los Rosales 123" required>
+        </div>
+      </div>
+
+      <div class="dialog-footer">
+        <button type="button" id="btnCancelar" class="btn btn-secondary">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Lógica Funcional para hacer interactivos los botones -->
+  <script>
+    let registros = [
+      { id: 1, nombres: "ALVAREZ ATUNCAR, CARLOS ALEJANDRO", pension: "DL 19990 - SNP", empaque: "Caja Mediana A1", casa: "Av. Los Rosales 123" },
+      { id: 2, nombres: "ANGEL CURASI, CARLOS ENRIQUE", pension: "SPP INTEGRA", empaque: "Bolsa Reforzada B2", casa: "Calle San Martín 456" },
+      { id: 3, nombres: "ANGEL FLORES, JESUS ALBERTO", pension: "SPP PRIMA", empaque: "Caja Grande C3", casa: "Jr. Bolognesi 789" },
+      { id: 4, nombres: "ANGEL FLORES, JUAN ALBERTO", pension: "SPP PROFUTURO", empaque: "Caja Chica A2", casa: "Urbanización Las Palmeras 12" },
+      { id: 5, nombres: "ANGEL FLORES, JULIO CESAR", pension: "SPP HABITAT", empaque: "Bolsa Estándar B1", casa: "Calle Real 550" },
+      { id: 6, nombres: "ANGEL FLORES, MIGUEL YSIDORO", pension: "DL 19990 - SNP", empaque: "Caja Mediana A2", casa: "Av. Circunvalación 300" },
+      { id: 7, nombres: "ANGEL YATACO, RONALD MIGUEL", pension: "SPP INTEGRA", empaque: "Caja Especial C1", casa: "Pasaje Los Pinos 45" },
+      { id: 8, nombres: "APARCANA CARBAJAL, ROCIO ELIZABETH", pension: "SPP PRIMA", empaque: "Bolsa Reforzada B3", casa: "Calle Comercio 88" },
+      { id: 9, nombres: "APARCANA TASAYCO, VICTOR MANUEL", pension: "SPP PROFUTURO", empaque: "Caja Grande C2", casa: "Av. Benavides 210" }
+    ];
+
+    const dialog = document.getElementById("exampleDialog");
+    const form = document.getElementById("formRegistro");
+    const tablaCuerpo = document.getElementById("tablaCuerpo");
+    const contadorRegistros = document.getElementById("contadorRegistros");
+    const dialogTitulo = document.getElementById("dialogTitulo");
+    const editIndex = document.getElementById("editIndex");
+
+    const inputNombres = document.getElementById("inputNombres");
+    const inputPension = document.getElementById("inputPension");
+    const inputEmpaque = document.getElementById("inputEmpaque");
+    const inputCasa = document.getElementById("inputCasa");
+
+    function renderizarTabla() {
+      tablaCuerpo.innerHTML = "";
+      registros.forEach((item, index) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td class="fw-bold">${item.id}</td>
+          <td class="col-nombre">${item.nombres}</td>
+          <td class="nowrap">${item.pension}</td>
+          <td class="nowrap"><span class="badge">${item.empaque}</span></td>
+          <td>${item.casa}</td>
+          <td class="text-center">
+            <div class="actions-cell">
+              <button type="button" class="btn-action btn-edit" onclick="editarFila(${index})" title="Editar">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button type="button" class="btn-action btn-delete" onclick="eliminarFila(${index})" title="Eliminar">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </div>
+          </td>
+        `;
+        tablaCuerpo.appendChild(fila);
+      });
+
+      const total = registros.length;
+      contadorRegistros.textContent = `Mostrando 1 a ${total} de ${total} registros`;
+    }
+
+    // Abrir modal para Agregar
+    document.getElementById("btnAgregar").addEventListener("click", () => {
+      form.reset();
+      editIndex.value = "-1";
+      dialogTitulo.textContent = "Registrar Nuevo Elemento";
+      dialog.showModal();
+    });
+
+    // Cerrar modal
+    document.getElementById("btnCerrarX").addEventListener("click", () => dialog.close());
+    document.getElementById("btnCancelar").addEventListener("click", () => dialog.close());
+
+    // Guardar (Crear o Actualizar)
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const idx = parseInt(editIndex.value);
+
+      const nuevoObjeto = {
+        id: idx === -1 
+          ? (registros.length > 0 ? Math.max(...registros.map(r => r.id)) + 1 : 1) 
+          : registros[idx].id,
+        nombres: inputNombres.value.trim().toUpperCase(),
+        pension: inputPension.value.trim(),
+        empaque: inputEmpaque.value.trim(),
+        casa: inputCasa.value.trim()
+      };
+
+      if (idx === -1) {
+        registros.push(nuevoObjeto);
+      } else {
+        registros[idx] = nuevoObjeto;
+      }
+
+      renderizarTabla();
+      dialog.close();
+    });
+
+    // Editar fila (abre el modal con datos)
+    window.editarFila = function(index) {
+      const item = registros[index];
+      editIndex.value = index;
+      inputNombres.value = item.nombres;
+      inputPension.value = item.pension;
+      inputEmpaque.value = item.empaque;
+      inputCasa.value = item.casa;
+      dialogTitulo.textContent = `Editar Registro #${item.id}`;
+      dialog.showModal();
+    };
+
+    // Eliminar fila
+    window.eliminarFila = function(index) {
+      registros.splice(index, 1);
+      renderizarTabla();
+    };
+
+    // Inicializar tabla al cargar la página
+    renderizarTabla();
+  </script>
+
+</body>
+</html>
