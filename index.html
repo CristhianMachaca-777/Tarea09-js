@@ -1,228 +1,164 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registro de Trabajadores / Personal</title>
-
-  <!-- Iconos de Bootstrap -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tarea 09 - Registro de Personal</title>
+  
+  <!-- Bootstrap 5 CSS CDN oficial -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- Hoja de estilos -->
-  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-light">
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="#" class="brand"><i class="bi bi-layers-fill"></i> SistemaWeb</a>
-      <ul class="nav-links">
-        <li><a href="#" class="active">Inicio</a></li>
-        <li><a href="#seccionTabla">Registros</a></li>
-      </ul>
+  <!-- 1. NAVBAR SUPERIOR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#"><i class="bi bi-layers-fill"></i> SistemaWeb</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#tablaSeccion">Registros</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
-  <!-- Contenedor principal -->
-  <main class="container">
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="container py-4">
     
-    <!-- Encabezado con Subtítulo y Botón Agregar -->
-    <header class="page-header">
+    <!-- ENCABEZADO Y BOTÓN PARA ABRIR EL MODAL -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
       <div>
-        <h1>Registro de Trabajadores / Personal</h1>
-        <p class="subtitle">Listado oficial de colaboradores registrados en el sistema.</p>
+        <h1 class="h3 fw-bold text-dark">Registro de Trabajadores / Personal</h1>
+        <p class="text-muted mb-0">Listado oficial de colaboradores registrados en el sistema.</p>
       </div>
-      <button type="button" id="btnAgregar" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i> Agregar
+      <!-- Botón que abre el componente MODAL de Bootstrap -->
+      <button type="button" class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#modalRegistro">
+        <i class="bi bi-plus-lg"></i> Agregar Registro
       </button>
-    </header>
-
-    <!-- Tabla de datos -->
-    <div id="seccionTabla" class="card">
-      <div class="table-wrapper">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Apellidos y Nombres</th>
-              <th>Régimen Pensionario</th>
-              <th>Empaquetación</th>
-              <th>Casa / Dirección</th>
-              <th class="text-center">Operaciones</th>
-            </tr>
-          </thead>
-          <tbody id="tablaCuerpo">
-            <!-- Se llena dinámicamente -->
-          </tbody>
-        </table>
-      </div>
     </div>
 
-    <!-- Paginación inferior -->
-    <footer class="pagination-bar">
-      <span id="contadorRegistros" class="records-info">Mostrando registros</span>
-      <div class="pagination-buttons">
-        <button type="button" class="page-btn disabled">Anterior</button>
-        <button type="button" class="page-btn active">1</button>
-        <button type="button" class="page-btn">Siguiente</button>
+    <!-- 2. TABLA HTML CON DATOS Y BOTONES EDITAR / ELIMINAR -->
+    <div id="tablaSeccion" class="card shadow-sm border-0">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th class="py-3 ps-3">ID</th>
+                <th class="py-3">Apellidos y Nombres</th>
+                <th class="py-3">Régimen Pensionario</th>
+                <th class="py-3">Empaquetación</th>
+                <th class="py-3">Casa / Dirección</th>
+                <th class="py-3 text-center pe-3">Operaciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fw-bold ps-3">1</td>
+                <td>ALVAREZ ATUNCAR, CARLOS ALEJANDRO</td>
+                <td>DL 19990 - SNP</td>
+                <td><span class="badge bg-primary bg-opacity-10 text-primary border border-primary px-2 py-1">Caja Mediana A1</span></td>
+                <td>Av. Los Rosales 123</td>
+                <td class="text-center pe-3">
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="bi bi-pencil-fill"></i> Editar</button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash-fill"></i> Eliminar</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="fw-bold ps-3">2</td>
+                <td>ANGEL CURASI, CARLOS ENRIQUE</td>
+                <td>SPP INTEGRA</td>
+                <td><span class="badge bg-primary bg-opacity-10 text-primary border border-primary px-2 py-1">Bolsa Reforzada B2</span></td>
+                <td>Calle San Martín 456</td>
+                <td class="text-center pe-3">
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="bi bi-pencil-fill"></i> Editar</button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash-fill"></i> Eliminar</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="fw-bold ps-3">3</td>
+                <td>ANGEL FLORES, JESUS ALBERTO</td>
+                <td>SPP PRIMA</td>
+                <td><span class="badge bg-primary bg-opacity-10 text-primary border border-primary px-2 py-1">Caja Grande C3</span></td>
+                <td>Jr. Bolognesi 789</td>
+                <td class="text-center pe-3">
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="bi bi-pencil-fill"></i> Editar</button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash-fill"></i> Eliminar</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="fw-bold ps-3">4</td>
+                <td>ANGEL FLORES, JUAN ALBERTO</td>
+                <td>SPP PROFUTURO</td>
+                <td><span class="badge bg-primary bg-opacity-10 text-primary border border-primary px-2 py-1">Caja Chica A2</span></td>
+                <td>Urbanización Las Palmeras 12</td>
+                <td class="text-center pe-3">
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="bi bi-pencil-fill"></i> Editar</button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash-fill"></i> Eliminar</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="fw-bold ps-3">5</td>
+                <td>ANGEL FLORES, JULIO CESAR</td>
+                <td>SPP HABITAT</td>
+                <td><span class="badge bg-primary bg-opacity-10 text-primary border border-primary px-2 py-1">Bolsa Estándar B1</span></td>
+                <td>Calle Real 550</td>
+                <td class="text-center pe-3">
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="bi bi-pencil-fill"></i> Editar</button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash-fill"></i> Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </footer>
+    </div>
 
   </main>
 
-  <!-- Cuadro de Diálogo (<dialog>) flotante con Formulario -->
-  <dialog id="exampleDialog" class="custom-dialog">
-    <div class="dialog-header">
-      <h2 id="dialogTitulo">Registrar Nuevo Elemento</h2>
-      <button type="button" id="btnCerrarX" class="btn-icon-close" aria-label="Cerrar">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
-
-    <form id="formRegistro">
-      <div class="dialog-body">
-        <input type="hidden" id="editIndex" value="-1">
-
-        <div class="form-group">
-          <label for="inputNombres">Apellidos y Nombres</label>
-          <input type="text" id="inputNombres" placeholder="Ej. APELLIDO, NOMBRES" required>
+  <!-- 3. MODAL DE BOOTSTRAP PARA REGISTRO DE DATOS -->
+  <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold" id="modalLabel"><i class="bi bi-person-plus-fill me-2"></i>Registrar Nuevo Trabajador</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-
-        <div class="form-group">
-          <label for="inputPension">Régimen Pensionario</label>
-          <input type="text" id="inputPension" placeholder="Ej. SPP INTEGRA / DL 19990" required>
-        </div>
-
-        <div class="form-group">
-          <label for="inputEmpaque">Empaquetación</label>
-          <input type="text" id="inputEmpaque" placeholder="Ej. Caja Mediana A1" required>
-        </div>
-
-        <div class="form-group">
-          <label for="inputCasa">Casa / Dirección</label>
-          <input type="text" id="inputCasa" placeholder="Ej. Av. Los Rosales 123" required>
-        </div>
-      </div>
-
-      <div class="dialog-footer">
-        <button type="button" id="btnCancelar" class="btn btn-secondary">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
-    </form>
-  </dialog>
-
-  <!-- Lógica Funcional para hacer interactivos los botones -->
-  <script>
-    let registros = [
-      { id: 1, nombres: "ALVAREZ ATUNCAR, CARLOS ALEJANDRO", pension: "DL 19990 - SNP", empaque: "Caja Mediana A1", casa: "Av. Los Rosales 123" },
-      { id: 2, nombres: "ANGEL CURASI, CARLOS ENRIQUE", pension: "SPP INTEGRA", empaque: "Bolsa Reforzada B2", casa: "Calle San Martín 456" },
-      { id: 3, nombres: "ANGEL FLORES, JESUS ALBERTO", pension: "SPP PRIMA", empaque: "Caja Grande C3", casa: "Jr. Bolognesi 789" },
-      { id: 4, nombres: "ANGEL FLORES, JUAN ALBERTO", pension: "SPP PROFUTURO", empaque: "Caja Chica A2", casa: "Urbanización Las Palmeras 12" },
-      { id: 5, nombres: "ANGEL FLORES, JULIO CESAR", pension: "SPP HABITAT", empaque: "Bolsa Estándar B1", casa: "Calle Real 550" },
-      { id: 6, nombres: "ANGEL FLORES, MIGUEL YSIDORO", pension: "DL 19990 - SNP", empaque: "Caja Mediana A2", casa: "Av. Circunvalación 300" },
-      { id: 7, nombres: "ANGEL YATACO, RONALD MIGUEL", pension: "SPP INTEGRA", empaque: "Caja Especial C1", casa: "Pasaje Los Pinos 45" },
-      { id: 8, nombres: "APARCANA CARBAJAL, ROCIO ELIZABETH", pension: "SPP PRIMA", empaque: "Bolsa Reforzada B3", casa: "Calle Comercio 88" },
-      { id: 9, nombres: "APARCANA TASAYCO, VICTOR MANUEL", pension: "SPP PROFUTURO", empaque: "Caja Grande C2", casa: "Av. Benavides 210" }
-    ];
-
-    const dialog = document.getElementById("exampleDialog");
-    const form = document.getElementById("formRegistro");
-    const tablaCuerpo = document.getElementById("tablaCuerpo");
-    const contadorRegistros = document.getElementById("contadorRegistros");
-    const dialogTitulo = document.getElementById("dialogTitulo");
-    const editIndex = document.getElementById("editIndex");
-
-    const inputNombres = document.getElementById("inputNombres");
-    const inputPension = document.getElementById("inputPension");
-    const inputEmpaque = document.getElementById("inputEmpaque");
-    const inputCasa = document.getElementById("inputCasa");
-
-    function renderizarTabla() {
-      tablaCuerpo.innerHTML = "";
-      registros.forEach((item, index) => {
-        const fila = document.createElement("tr");
-        fila.innerHTML = `
-          <td class="fw-bold">${item.id}</td>
-          <td class="col-nombre">${item.nombres}</td>
-          <td class="nowrap">${item.pension}</td>
-          <td class="nowrap"><span class="badge">${item.empaque}</span></td>
-          <td>${item.casa}</td>
-          <td class="text-center">
-            <div class="actions-cell">
-              <button type="button" class="btn-action btn-edit" onclick="editarFila(${index})" title="Editar">
-                <i class="bi bi-pencil-fill"></i>
-              </button>
-              <button type="button" class="btn-action btn-delete" onclick="eliminarFila(${index})" title="Eliminar">
-                <i class="bi bi-trash-fill"></i>
-              </button>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="inputNombres" class="form-label fw-semibold">Apellidos y Nombres</label>
+              <input type="text" class="form-control" id="inputNombres" placeholder="Ej. APELLIDO, NOMBRES">
             </div>
-          </td>
-        `;
-        tablaCuerpo.appendChild(fila);
-      });
+            <div class="mb-3">
+              <label for="inputPension" class="form-label fw-semibold">Régimen Pensionario</label>
+              <input type="text" class="form-control" id="inputPension" placeholder="Ej. SPP INTEGRA / DL 19990">
+            </div>
+            <div class="mb-3">
+              <label for="inputEmpaque" class="form-label fw-semibold">Empaquetación</label>
+              <input type="text" class="form-control" id="inputEmpaque" placeholder="Ej. Caja Mediana A1">
+            </div>
+            <div class="mb-3">
+              <label for="inputCasa" class="form-label fw-semibold">Casa / Dirección</label>
+              <input type="text" class="form-control" id="inputCasa" placeholder="Ej. Av. Los Rosales 123">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      const total = registros.length;
-      contadorRegistros.textContent = `Mostrando 1 a ${total} de ${total} registros`;
-    }
-
-    // Abrir modal para Agregar
-    document.getElementById("btnAgregar").addEventListener("click", () => {
-      form.reset();
-      editIndex.value = "-1";
-      dialogTitulo.textContent = "Registrar Nuevo Elemento";
-      dialog.showModal();
-    });
-
-    // Cerrar modal
-    document.getElementById("btnCerrarX").addEventListener("click", () => dialog.close());
-    document.getElementById("btnCancelar").addEventListener("click", () => dialog.close());
-
-    // Guardar (Crear o Actualizar)
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const idx = parseInt(editIndex.value);
-
-      const nuevoObjeto = {
-        id: idx === -1 
-          ? (registros.length > 0 ? Math.max(...registros.map(r => r.id)) + 1 : 1) 
-          : registros[idx].id,
-        nombres: inputNombres.value.trim().toUpperCase(),
-        pension: inputPension.value.trim(),
-        empaque: inputEmpaque.value.trim(),
-        casa: inputCasa.value.trim()
-      };
-
-      if (idx === -1) {
-        registros.push(nuevoObjeto);
-      } else {
-        registros[idx] = nuevoObjeto;
-      }
-
-      renderizarTabla();
-      dialog.close();
-    });
-
-    // Editar fila (abre el modal con datos)
-    window.editarFila = function(index) {
-      const item = registros[index];
-      editIndex.value = index;
-      inputNombres.value = item.nombres;
-      inputPension.value = item.pension;
-      inputEmpaque.value = item.empaque;
-      inputCasa.value = item.casa;
-      dialogTitulo.textContent = `Editar Registro #${item.id}`;
-      dialog.showModal();
-    };
-
-    // Eliminar fila
-    window.eliminarFila = function(index) {
-      registros.splice(index, 1);
-      renderizarTabla();
-    };
-
-    // Inicializar tabla al cargar la página
-    renderizarTabla();
-  </script>
-
+  <!-- Bootstrap 5 JS Bundle CDN (Obligatorio para que funcione el modal y el menú desplegable) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
